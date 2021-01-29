@@ -69,6 +69,15 @@ def drawBoard():
     pygame.display.update()
 
 
+def PrintingOnScreen(input):
+    window.fill(WHITE)
+    txt = FONT.render(input, 1, BLACK)
+    window.blit(txt, (WIDTH / 2 - txt.get_width() /
+                      2, HEIGHT / 2 - txt.get_height() / 2))
+    pygame.display.update()
+    pygame.time.delay(5000)
+
+
 while controller:
     clock.tick(framePerSecond)
 
@@ -97,10 +106,10 @@ while controller:
             break
 
     if isWon:
-        print("You Won")
+        PrintingOnScreen("Congratulation, You won!")
         break
 
     if hangmanUpdate == 6:
-        print("You lost")
+        PrintingOnScreen("I'm sorry, You lost!")
         break
 pygame.QUIT()
