@@ -28,6 +28,8 @@ for image in range(7):
     imgs.append(pictures)
 
 hangmanUpdate = 0
+word = "DEVELOPER"
+guessed = []
 
 # setting up the global variables for colors
 WHITE = (255, 255, 255)
@@ -43,6 +45,13 @@ controller = True
 def drawBoard():
     window.fill(WHITE)
 
+    # displaying word on the scree
+    newWord = ""
+    for letter in word:
+        if letter in guessed:
+            newWord += letter + " "
+        else:
+            newWord += "_ "
     # drawing button with letters
     for label in letters:
         positionX, positionY, letter, visible = label
