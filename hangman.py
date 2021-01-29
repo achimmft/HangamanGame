@@ -35,6 +35,7 @@ guessed = []
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 FONT = pygame.font.SysFont('arial', 20)
+newFont = pygame.font.SysFont('arial', 50)
 
 # setting up the game loop
 framePerSecond = 60
@@ -52,6 +53,8 @@ def drawBoard():
             newWord += letter + " "
         else:
             newWord += "_ "
+    txt = newFont.render(newWord, 1, BLACK)
+    window.blit(txt, (375, 250))
     # drawing button with letters
     for label in letters:
         positionX, positionY, letter, visible = label
@@ -83,4 +86,21 @@ while controller:
                                          2 + (mouseY - positionY) ** 2)
                     if distance < RADIUS:
                         label[3] = False
+                        guessed.append(letter)
+                        if letter not in word:
+                            hangmanUpdate += 1
+
+    isWon = True
+    for letter in word:
+        if letter not in guessed:
+            isWon = False
+            break
+
+    if isWon:
+        print("You Won")
+        break
+
+    if hangmanUpdate == 6:
+        print("You lost")
+        break
 pygame.QUIT()
