@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 
 # setting up display
 pygame.init()
@@ -18,7 +19,7 @@ A = 65
 for pos in range(26):
     positionX = startx + GAP * 2 + ((RADIUS * 2 + GAP) * (pos % 13))
     positionY = starty + ((pos // 13) * (GAP + RADIUS * 2))
-    letters.append([positionX, positionY, chr(A + pos)])
+    letters.append([positionX, positionY, chr(A + pos), True])
 
 # loading images
 imgs = []
@@ -28,10 +29,10 @@ for image in range(7):
 
 hangmanUpdate = 0
 
-# colors
+# setting up the global variables for colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-FONT = pygame.font.SysFont('ar')
+FONT = pygame.font.SysFont('arial', 20)
 
 # setting up the game loop
 framePerSecond = 60
@@ -44,8 +45,13 @@ def drawBoard():
 
     # drawing button with letters
     for label in letters:
-        positionX, positionY, letter = label
-        pygame.draw.circle(window, BLACK, (positionX, positionY), RADIUS, 2)
+        positionX, positionY, letter, visible = label
+        if visible:
+            pygame.draw.circle(
+                window, BLACK, (positionX, positionY), RADIUS, 2)
+            txt = FONT.render(letter, 1, BLACK)
+            window.blit(txt, (positionX - txt.get_width() /
+                              2, positionY - txt.get_height() / 2))
 
     window.blit(imgs[hangmanUpdate], (150, 100))
     pygame.display.update()
@@ -60,6 +66,12 @@ while controller:
         if event.type == pygame.QUIT:
             controller = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            position = pygame.mouse.get_pos()
-            print(position)
+            mouseX, mouseY = pygame.mouse.get_pos()
+            for label in letters:
+                positionX, positionY, letter, visible = label
+                if visible:
+                    distance = math.sqrt((mouseX - positionX) **
+                                         2 + (mouseY - positionY) ** 2)
+                    if distance < RADIUS:
+                        label[3] = False
 pygame.QUIT()
