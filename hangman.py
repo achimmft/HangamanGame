@@ -36,6 +36,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 FONT = pygame.font.SysFont('arial', 20)
 newFont = pygame.font.SysFont('arial', 50)
+TITLE_FONT = pygame.font.SysFont('comicsans', 60)
 
 # setting up the game loop
 framePerSecond = 60
@@ -45,7 +46,9 @@ controller = True
 
 def drawBoard():
     window.fill(WHITE)
-
+    # game title
+    txt = TITLE_FONT.render("Hey HANGMAN", 1, BLACK)
+    window.blit(txt, (WIDTH / 2 - txt.get_width() / 2, 20))
     # displaying word on the scree
     newWord = ""
     for letter in word:
@@ -69,7 +72,8 @@ def drawBoard():
     pygame.display.update()
 
 
-def PrintingOnScreen(input):
+def DisplayMessaage(input):
+    pygame.time.delay(1000)
     window.fill(WHITE)
     txt = FONT.render(input, 1, BLACK)
     window.blit(txt, (WIDTH / 2 - txt.get_width() /
@@ -80,8 +84,6 @@ def PrintingOnScreen(input):
 
 while controller:
     clock.tick(framePerSecond)
-
-    drawBoard()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -99,6 +101,8 @@ while controller:
                         if letter not in word:
                             hangmanUpdate += 1
 
+    drawBoard()
+
     isWon = True
     for letter in word:
         if letter not in guessed:
@@ -106,10 +110,10 @@ while controller:
             break
 
     if isWon:
-        PrintingOnScreen("Congratulation, You won!")
+        DisplayMessaage("Congratulations, You won!")
         break
 
     if hangmanUpdate == 6:
-        PrintingOnScreen("I'm sorry, You lost!")
+        DisplayMessaage("I'm sorry, You lost!")
         break
 pygame.QUIT()
