@@ -1,6 +1,10 @@
+"""
+    Hangman Game
+"""
 import pygame
 import os
 import math
+import random
 
 # setting up display
 pygame.init()
@@ -28,7 +32,15 @@ for image in range(7):
     imgs.append(pictures)
 
 hangmanUpdate = 0
-word = "DEVELOPER"
+lists = ["ACHIM", "MFITIMANA", "LONDON", "UTAH",
+         "CALIFORNIA", "TEXAS", "FLORIDA", "USA", "PROGRAMMER"]
+
+# File = open("words.txt", "r")
+# for line in File:
+#     lists.append(line)
+# File.close()
+
+word = random.choice(lists)
 guessed = []
 
 # setting up the global variables for colors
